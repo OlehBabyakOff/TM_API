@@ -2,8 +2,8 @@ import {registrationService, loginService, logoutService} from "../services/auth
 
 export const registrationController = async (req, res) => {
     try {
-        const {firstName, lastName, email, phoneNumber, password} = req.body;
-        const user = await registrationService(firstName, lastName, email, phoneNumber, password);
+        const {email, password} = req.body;
+        const user = await registrationService(email, password);
         return res.status(200).json(user);
     } catch (e) {
         return res.status(500).json(e.message);

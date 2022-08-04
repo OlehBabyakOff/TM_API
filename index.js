@@ -6,6 +6,7 @@ import cors from "cors";
 import "dotenv/config";
 
 import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use("/api", authRoutes);
+app.use("/api", authRoutes, userRoutes);
 
 const start = async () => {
     try {
@@ -25,7 +26,7 @@ const start = async () => {
         await app.listen(process.env.API_PORT, () => console.log(`Server started at port ${process.env.API_PORT}`));
     } catch (e) {
         console.log(e);
-    }
+    };
 }
 
 start();

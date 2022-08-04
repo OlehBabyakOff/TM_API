@@ -4,7 +4,6 @@ import {registrationController, loginController, logoutController} from "../cont
 const router = new Router();
 
 // router.get('/refresh', refreshController);
-// router.get('/activate/:link', activateController);
 
 router.post('/registration', registrationController);
 router.post('/login', loginController);

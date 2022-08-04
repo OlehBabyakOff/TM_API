@@ -1,20 +1,20 @@
 import bcrypt from "bcrypt";
-import UserSchema from "../models/User.js";
+import AuthSchema from "../models/Auth.js";
 import {generateTokens, saveToken, removeToken} from "./tokenService.js";
 
 
-export const registrationService = async (firstName, lastName, email, phoneNumber, password) => {
-    if (!firstName && !lastName && !email && !phoneNumber && password) throw new Error('Empty values are not allowed!');
-    const candidate = await UserSchema.findOne({email});
+export const registrationService = async (email, password) => {
+    if (!email && password) throw new Error('Empty values are not allowed!');
+    const candidate = await AuthSchema.findOne({email});
     if (candidate) throw new Error(`Email ${email} already exist!`);
     const hashPassword = await bcrypt.hash(password, 7);
-    const user = await UserSchema.create({firstName, lastName, email, phoneNumber, password: hashPassword});
+    const user = await AuthSchema.create({email, password: hashPassword});
     return user;
 };
 
 export const loginService = async (email, password) => {
     if (!email && !password) throw new Error('Empty values are not allowed!');
-    const user = await UserSchema.findOne({email});
+    const user = await AuthSchema.findOne({email});
     if (!user) throw new Error('User does not exist!');
     const comparePasswords = await bcrypt.compare(password, user.password);
     if (!comparePasswords) throw new Error('Wrong password!');
