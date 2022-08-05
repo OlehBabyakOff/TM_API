@@ -25,3 +25,13 @@ export const removeToken = async (refreshToken) => {
     const token = await TokenSchema.deleteOne({refreshToken});
     return token;
 };
+
+export const validateAccessToken = async (accessToken) => {
+    try {
+        const user = await jwt.verify(accessToken, process.env.JWT_ACCESS);
+        return user;
+    } catch (e) {
+        return null;
+    }
+};
+
