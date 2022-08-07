@@ -27,9 +27,6 @@ export const getUsersService = async (page, limit) => {
 };
 
 export const updateUserService = async (userId, firstName, lastName, email, phoneNumber) => {
-    const emailCheck = await UserSchema.findOne({email});
-    const phoneCheck = await UserSchema.findOne({phoneNumber});
-    if (emailCheck || phoneCheck) throw new Error('User with these values already exist!');
     await UserSchema.updateOne({_id: userId}, {
         firstName,
         lastName,

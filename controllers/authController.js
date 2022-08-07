@@ -26,7 +26,7 @@ export const logoutController = async (req, res) => {
         const {refreshToken} = req.cookies;
         const user = await logoutService(refreshToken);
         res.clearCookie('refreshToken');
-        return res.status(200).json(user);
+        return res.status(200).json({user, message: 'You have been successfully logged out!'});
     } catch (e) {
         return res.status(500).json(e.message);
     };

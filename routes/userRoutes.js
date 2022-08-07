@@ -5,13 +5,13 @@ import {validateUser, userValidationMessage} from "../middleware/userValidation.
 
 const router = new Router();
 
-router.post('/user', validateToken, validateUser, userValidationMessage, createUserController);
+router.post('/user', validateUser, userValidationMessage, createUserController);
 
 router.get('/user/:id', getUserController);
 router.get('/users', getUsersController);
 
-router.put('/user/:id', validateToken, updateUserController);
+router.put('/user/:id', updateUserController);
 
-router.delete('/user/:id', validateToken, deleteUserController);
+router.delete('/user/:id', deleteUserController);
 
 export default router;
