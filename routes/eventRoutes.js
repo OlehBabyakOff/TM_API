@@ -1,8 +1,11 @@
 import {Router} from "express";
-import {createEventController} from "../controllers/eventController.js";
+import {getEventsController, createEventController} from "../controllers/eventController.js";
+import {eventValidationMessage, validateEvent} from "../middleware/eventValidation.js";
 
 const router = new Router();
 
-router.post('/:userId/event', createEventController);
+router.get('/:userId/events', getEventsController);
+
+router.post('/:userId/event', validateEvent, eventValidationMessage, createEventController);
 
 export default router;

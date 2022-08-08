@@ -1,4 +1,6 @@
 import UserSchema from "../models/User.js";
+import EventSchema from "../models/Event.js";
+import {getEventsService} from "./eventService.js";
 
 export const createUserService = async (firstName, lastName, email, phoneNumber) => {
     if (!firstName && !lastName && !email && !phoneNumber) throw new Error('Empty values are not allowed!');
@@ -17,7 +19,9 @@ export const getUserService = async (userId) => {
 export const getUsersService = async (page, limit) => {
     const users = await UserSchema.find()
         .limit(limit * 1)
-        .skip((page - 1) * limit);
+        .skip((page - 1) * limit)
+        .populate('events');
+
     const countUsers = await UserSchema.countDocuments();
     return {
         users,
