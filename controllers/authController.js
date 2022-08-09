@@ -1,4 +1,4 @@
-import {registrationService, loginService, logoutService} from "../services/authService.js";
+import {registrationService, loginService, logoutService, refreshService} from "../services/authService.js";
 
 export const registrationController = async (req, res) => {
     try {
@@ -30,4 +30,16 @@ export const logoutController = async (req, res) => {
     } catch (e) {
         return res.status(500).json(e.message);
     };
+};
+
+export const refreshController = async (req, res) => {
+    try {
+        const {refreshToken} = req.cookies;
+        const user = await refreshService(refreshToken);
+        res.cookie('refreshToken', user.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
+        return res.status(201).json(user);
+    } catch (e) {
+        res.clearCookie('refreshToken');
+        return res.status(500).json(e.message);
+    }
 };

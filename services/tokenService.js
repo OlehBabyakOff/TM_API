@@ -26,9 +26,23 @@ export const removeToken = async (refreshToken) => {
     return token;
 };
 
+export const findToken = async (refreshToken) => {
+    const token = await TokenSchema.findOne({refreshToken});
+    return token;
+};
+
 export const validateAccessToken = async (accessToken) => {
     try {
         const user = await jwt.verify(accessToken, process.env.JWT_ACCESS);
+        return user;
+    } catch (e) {
+        return null;
+    }
+};
+
+export const validateRefreshToken = async (token) => {
+    try {
+        const user = await jwt.verify(token, process.env.JWT_REFRESH);
         return user;
     } catch (e) {
         return null;

@@ -43,4 +43,5 @@ export const updateUserService = async (userId, firstName, lastName, email, phon
 
 export const deleteUserService = async (userId) => {
     await UserSchema.deleteOne({_id: userId});
+    await EventSchema.deleteMany({user:userId});
 };
