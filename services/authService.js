@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import AuthSchema from "../models/Auth.js";
+import UserSchema from "../models/User.js";
 import {generateTokens, saveToken, removeToken, findToken, validateRefreshToken} from "./tokenService.js";
 
 
@@ -42,8 +43,8 @@ export const refreshService = async (refreshToken) => {
     if (!refreshToken) throw new Error('Token does not exist!');
     const userData = await validateRefreshToken(refreshToken);
     const tokenDB = await findToken(refreshToken);
-    if (!userData || !tokenDB) throw new Error('Authorization error1');
-    const user = await UserSchema.findOne({_id: userData._id});
+    if (!userData || !tokenDB) throw new Error('Authorization error!');
+    const user = await UserSchema.find(userData);
     const userHash = {
         _id: user._id,
         email: user.email,
@@ -51,10 +52,8 @@ export const refreshService = async (refreshToken) => {
         lastName: user.lastName,
         phoneNumber: user.phoneNumber
     };
-
     const tokens = await generateTokens(userHash);
-    await saveToken(user.id, tokens.refreshToken);
-
+    await saveToken(userHash._id, tokens.refreshToken);
     return {
         ...tokens,
         user

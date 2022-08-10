@@ -37,7 +37,7 @@ export const refreshController = async (req, res) => {
         const {refreshToken} = req.cookies;
         const user = await refreshService(refreshToken);
         res.cookie('refreshToken', user.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
-        return res.status(201).json(user);
+        return res.status(200).json(user);
     } catch (e) {
         res.clearCookie('refreshToken');
         return res.status(500).json(e.message);
