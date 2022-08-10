@@ -1,6 +1,5 @@
 import UserSchema from "../models/User.js";
 import EventSchema from "../models/Event.js";
-import {getEventsService} from "./eventService.js";
 
 export const createUserService = async (firstName, lastName, email, phoneNumber) => {
     if (!firstName && !lastName && !email && !phoneNumber) throw new Error('Empty values are not allowed!');
